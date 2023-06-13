@@ -35,6 +35,7 @@
             this.button_Refresh = new System.Windows.Forms.Button();
             this.button_Disconnect = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.PPG_Raw_data_print = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_Connect
@@ -103,13 +104,23 @@
             this.button1.TabIndex = 6;
             this.button1.Text = "저장";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // PPG_Raw_data_print
+            // 
+            this.PPG_Raw_data_print.Location = new System.Drawing.Point(154, 369);
+            this.PPG_Raw_data_print.Name = "PPG_Raw_data_print";
+            this.PPG_Raw_data_print.Size = new System.Drawing.Size(134, 55);
+            this.PPG_Raw_data_print.TabIndex = 7;
+            this.PPG_Raw_data_print.Text = "PPG 데이터 출력";
+            this.PPG_Raw_data_print.UseVisualStyleBackColor = true;
+            this.PPG_Raw_data_print.Click += new System.EventHandler(this.PPG_Raw_data_print_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(466, 618);
+            this.ClientSize = new System.Drawing.Size(466, 445);
+            this.Controls.Add(this.PPG_Raw_data_print);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button_Disconnect);
             this.Controls.Add(this.button_Refresh);
@@ -133,6 +144,7 @@
         private System.Windows.Forms.Button button_Refresh;
         private System.Windows.Forms.Button button_Disconnect;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button PPG_Raw_data_print;
     }
 }
 

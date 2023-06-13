@@ -84,6 +84,7 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
                     {
                         psd_idx = (byte)(Packet_TX_Index - 7);  // PSD index
                         PacketStreamData[psd_idx] = data_crnt;
+                        // 만약 Packet_TX_Index가 
                         if (Packet_TX_Index == (Ch_Num * 2 * Sample_Num + 6)) // Complete
                         {
                             Sync_After = false;
@@ -95,26 +96,35 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
             return retv;
         }
 
+        // SerialPort1_DataReceived 함수 정의
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            // 시리얼 포트로 가져온 바이트를 정수형인 receivedNumber에 저장
             int receivedNumber = serialPort.BytesToRead;
 
+            // 만약 receivedNumber가 0보다 클 경우
             if (receivedNumber > 0)
             {
+                // receivedNumber의 길이로 이루어진 바이트 배열인 buffer를 선언
                 byte[] buffer = new byte[receivedNumber];
+                // 시리얼 포트로 가져온 데이터를 버퍼라는 배이트배열의 시작점인 0부터 저장한다. receivedNumber라는 데이터로
                 serialPort.Read(buffer, 0, receivedNumber);
-
+                // 반복문, foreach 구문을 사용하여 buffer배열에 receivedData를 참조
                 foreach (byte receivedData in buffer)
                 {
+                    // 만약 Parsing_LXSDFT2(receivedData)가 1인 경우
                     if (Parsing_LXSDFT2(receivedData) == 1)
                     {
+                        // TextBox에 텍스트를 추가한다. 텍스트 형식은 {0:D2}: {1} ms | 과 같으며 {0:D2}에는 PacketCount가 들어가며 {1}은 ((PUD1 % 0x07) << 8) + PUD0 를 넣는다.
                         textBox_ViewData.AppendText(
                             string.Format("{0:D2}: {1} ms | ",
                                 PacketCount,
                                 ((PUD1 % 0x07) << 8) + PUD0)
                         );
+                        // Ch_Num을 반복하며
                         for (int i = 0; i < Ch_Num; i++)
                         {
+                            // TextBox에 텍스트를 추가한다. 텍스트 형식은 {0}이며 ((PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1]))를 대입함
                             textBox_ViewData.AppendText(string.Format("{0} ", ((PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1]));
                         }
                         textBox_ViewData.AppendText("\r\n");
@@ -129,6 +139,7 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
 
         private void button_Connect_Click(object sender, EventArgs e)
         {
+
             if (comboBox_Port.Text.Length == 0)
             {
                 MessageBox.Show("포트를 선택해주세요.");
@@ -149,9 +160,12 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
 
         private void port_Refresh()
         {
+            // 사용이 가능한 시리얼 포트의 이름 목록을 가져옴
             string[] PortNames = SerialPort.GetPortNames();
 
+            // 상자 속의 항목들을 먼저 초기화
             comboBox_Port.Items.Clear();
+            // foreach 루프를 사용하여 ComboBox_Port 항목을 추가
             foreach (string portnumber in PortNames)
             {
                 comboBox_Port.Items.Add(portnumber);
@@ -176,13 +190,20 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void PPG_Raw_data_print_Click(object sender, EventArgs e)
         {
-            if ()
-            {
-                Sample_Num = 
-            }
-
+            Ubpulse_PPG_chart showUbpulse_PPG_Chart = new Ubpulse_PPG_chart();
+            showUbpulse_PPG_Chart.ShowDialog();
         }
+        /*
+       private void button1_Click(object sender, EventArgs e)
+       {
+           if ()
+           {
+               Sample_Num = 
+           }
+
+       }
+*/
     }
 }
