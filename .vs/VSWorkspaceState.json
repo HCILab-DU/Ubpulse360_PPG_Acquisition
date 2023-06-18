@@ -1,13 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\PPG_Serial-main",
-    "\\PPG_Serial-main\\WindowsFormsApp1",
-    "\\PPG_Serial-main\\WindowsFormsApp1\\WindowsFormsApp1",
-    "\\PPG_Serial-main\\WindowsFormsApp1\\WindowsFormsApp1\\bin",
-    "\\PPG_Serial-main\\WindowsFormsApp1\\WindowsFormsApp1\\bin\\Debug",
-    "\\PPG_Serial-main\\WindowsFormsApp1\\WindowsFormsApp1\\obj"
+    ""
   ],
-  "SelectedNode": "\\PPG_Serial-main\\WindowsFormsApp1\\WindowsFormsApp1\\Form1.cs",
   "PreviewInSolutionExplorer": false
 }

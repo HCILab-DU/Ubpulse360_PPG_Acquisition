@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using System.Diagnostics;
 
 
 namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
@@ -140,6 +142,7 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
             }
         }
 
+        private Stopwatch stopwatch = new Stopwatch();
         private void button1_Click(object sender, EventArgs e)
         {
 
@@ -148,7 +151,7 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
                 MessageBox.Show("데이터 저장을 시작합니다.");
                 // CSV 파일 경로 및 파일 이름 설정
                 string csvFilePath = Path.Combine(Application.StartupPath, "data.csv");
-
+                stopwatch.Start();
 
 
                 try
@@ -158,8 +161,11 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
                     {
                         int SerialData = serialPort.BytesToRead;
 
+                        writer.WriteLine("Time, Data");
+
                         if (SerialData > 0)
                         {
+                            TimeSpan elapsed = stopwatch.Elapsed;
                             byte[] buffer = new byte[SerialData];
                             serialPort.Read(buffer, 0, SerialData);
                             foreach (byte StreamSaveData in buffer)
@@ -169,7 +175,7 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
                                     for (int i = 0; i <Ch_Num; i++)
                                     {
                                         int Streamdata = (((PacketStreamData[i * 2] & 0x0F) << 8) +PacketStreamData[i * 2 + 1]);
-                                        string currentTime = DateTime.Now.ToString("HH:mm:ss");
+                                        string currentTime = elapsed.ToString(@"hh\:mm\:ss\.fff");
                                         string line = string.Format("{0}, {1}", currentTime, Streamdata);
                                         writer.WriteLine(line);
                                     }
