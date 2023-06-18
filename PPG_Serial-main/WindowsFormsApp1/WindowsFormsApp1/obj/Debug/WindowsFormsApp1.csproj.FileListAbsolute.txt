@@ -32,3 +32,15 @@ C:\Users\Miran-Laptop\PPG\PPG_serial\PPG_Serial-main\WindowsFormsApp1\WindowsFor
 C:\Users\Miran-Laptop\PPG\PPG_serial\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
 C:\Users\Miran-Laptop\PPG\PPG_serial\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
 C:\Users\Miran-Laptop\PPG\PPG_serial\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Ubpulse_PPG_chart.resources
+C:\Users\sungm\Source\Repos\Assloper\ppg_signal\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+C:\Users\sungm\Source\Repos\Assloper\ppg_signal\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+C:\Users\sungm\Source\Repos\Assloper\ppg_signal\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+C:\Users\sungm\Source\Repos\Assloper\ppg_signal\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.AssemblyReference.cache
+C:\Users\sungm\Source\Repos\Assloper\ppg_signal\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.SuggestedBindingRedirects.cache
+C:\Users\sungm\Source\Repos\Assloper\ppg_signal\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\Users\sungm\Source\Repos\Assloper\ppg_signal\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\Users\sungm\Source\Repos\Assloper\ppg_signal\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Ubpulse_PPG_chart.resources
+C:\Users\sungm\Source\Repos\Assloper\ppg_signal\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.cache
+C:\Users\sungm\Source\Repos\Assloper\ppg_signal\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+C:\Users\sungm\Source\Repos\Assloper\ppg_signal\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+C:\Users\sungm\Source\Repos\Assloper\ppg_signal\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb

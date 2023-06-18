@@ -4,6 +4,7 @@ using System.IO.Ports;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
+
 namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
 {
     // 공개된 여러파일에 나눠 작성되는 'Form1' 클래스 정의
@@ -32,7 +33,6 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
         static int Ch_Num = 6;
         static int Sample_Num = 1;
         byte[] PacketStreamData = new byte[Ch_Num * 2 * Sample_Num];
-        String strDir = "C:\\Users\\Miran-Laptop\\Desktop\\asdf"; // CSV 파일 경로와 이름 설정
 
 
         int Parsing_LXSDFT2(byte data_crnt)
@@ -140,12 +140,52 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
             }
         }
 
-        private void SaveDataToCSV(string filePath, string[] data)
+        private void button1_Click(object sender, EventArgs e)
         {
-            using (StreamWriter sw = new StreamWriter(filePath, true))
+
+            if (serialPort.IsOpen)
             {
-                string csvLine = string.Join(",", data);
-                sw.WriteLine(csvLine);
+                MessageBox.Show("데이터 저장을 시작합니다.");
+                // CSV 파일 경로 및 파일 이름 설정
+                string csvFilePath = "C:\\data.csv";
+
+                
+
+                try
+                {
+                    // CSV 파일을 생성하고 쓰기 위한 StreamWriter 객체 생성
+                    using (StreamWriter writer = new StreamWriter(csvFilePath))
+                    {
+                        int SerialData = serialPort.BytesToRead;
+
+                        if (SerialData > 0)
+                        {
+                            byte[] buffer = new byte[SerialData];
+                            serialPort.Read(buffer, 0, SerialData);
+                            foreach (byte StreamSaveData in buffer)
+                            {
+                                if (Parsing_LXSDFT2(StreamSaveData) == 1)
+                                {
+                                    for (int i = 0; i <Ch_Num; i++)
+                                    {
+                                        int Streamdata = (((PacketStreamData[i * 2] & 0x0F) << 8) +PacketStreamData[i * 2 + 1]);
+                                        string currentTime = DateTime.Now.ToString("HH:mm:ss");
+                                        string line = string.Format("{0}, {1}", currentTime, Streamdata);
+                                        writer.WriteLine(line);
+                                    }
+
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("저장 오류");
+                }
+
             }
         }
 
@@ -206,35 +246,6 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
         {
             Ubpulse_PPG_chart showUbpulse_PPG_Chart = new Ubpulse_PPG_chart();
             showUbpulse_PPG_Chart.ShowDialog();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            if (serialPort.IsOpen)
-            {
-                int StreamNumber = 0;
-                byte[] buffer = new byte[StreamNumber];
-                serialPort.Read(buffer, 0, StreamNumber);
-                using (StreamWriter writer = new StreamWriter(strDir))
-
-                {
-                    foreach (byte receivedData in buffer)
-                    {
-                        if (Parsing_LXSDFT2(receivedData) == 1)
-                        {
-                            string line = string.Format("{0:D2}, {1}, ", PacketCount, ((PUD1 % 0x07) << 8) + PUD0);
-
-                            for (int i = 0; i < Ch_Num; i++)
-                            {
-                                line += string.Format("{0}, ", ((PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1]);
-                            }
-
-                            writer.WriteLine("{0}", line);
-                        }
-                    }
-                }
-            }
         }
         /*
         {
