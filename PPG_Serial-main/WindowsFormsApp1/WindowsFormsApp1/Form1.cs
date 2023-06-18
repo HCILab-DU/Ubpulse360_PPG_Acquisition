@@ -147,9 +147,9 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
             {
                 MessageBox.Show("데이터 저장을 시작합니다.");
                 // CSV 파일 경로 및 파일 이름 설정
-                string csvFilePath = "C:\\data.csv";
+                string csvFilePath = string csvFilePath = Path.Combine(Application.StartupPath, "data.csv");
 
-                
+
 
                 try
                 {
@@ -168,7 +168,7 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
                                 {
                                     for (int i = 0; i <Ch_Num; i++)
                                     {
-                                        int Streamdata = (((PacketStreamData[i * 2] & 0x0F) << 8) +PacketStreamData[i * 2 + 1]);
+                                        byte Streamdata = (((PacketStreamData[i * 2] & 0x0F) << 8) +PacketStreamData[i * 2 + 1]);
                                         string currentTime = DateTime.Now.ToString("HH:mm:ss");
                                         string line = string.Format("{0}, {1}", currentTime, Streamdata);
                                         writer.WriteLine(line);
