@@ -133,6 +133,7 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
                             textBox_ViewData.AppendText(string.Format("{0} ", ((PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1]));
                         }
                         textBox_ViewData.AppendText("\r\n");
+                        
                         /*if (PacketCount >= 31)
                         {
                             textBox_ViewData.AppendText("\r\n\r\n");
@@ -148,10 +149,10 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
 
             if (serialPort.IsOpen)
             {
+
                 MessageBox.Show("데이터 저장을 시작합니다.");
                 // CSV 파일 경로 및 파일 이름 설정
                 string csvFilePath = Path.Combine(Application.StartupPath, "data.csv");
-                stopwatch.Start();
 
 
                 try
@@ -165,7 +166,9 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
 
                         if (SerialData > 0)
                         {
+                            stopwatch.Start();
                             TimeSpan elapsed = stopwatch.Elapsed;
+                            string currentTime = elapsed.ToString("mm\\:ss\\.fff");
                             byte[] buffer = new byte[SerialData];
                             serialPort.Read(buffer, 0, SerialData);
                             foreach (byte StreamSaveData in buffer)
@@ -175,7 +178,7 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
                                     for (int i = 0; i <Ch_Num; i++)
                                     {
                                         int Streamdata = (((PacketStreamData[i * 2] & 0x0F) << 8) +PacketStreamData[i * 2 + 1]);
-                                        string currentTime = elapsed.ToString(@"hh\:mm\:ss\.fff");
+                                        //string currentTime = elapsed.ToString("mm\\:ss\\.fff");
                                         string line = string.Format("{0}, {1}", currentTime, Streamdata);
                                         writer.WriteLine(line);
                                     }
@@ -217,7 +220,7 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
         }
 
         private void port_Refresh()
-        {
+        { 
             // 사용이 가능한 시리얼 포트의 이름 목록을 가져옴
             string[] PortNames = SerialPort.GetPortNames();
 
@@ -253,41 +256,6 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
             Ubpulse_PPG_chart showUbpulse_PPG_Chart = new Ubpulse_PPG_chart();
             showUbpulse_PPG_Chart.ShowDialog();
         }
-        /*
-        {
-            /*
-            String strDir = "C:\\Users\\Miran-Laptop\\PPG\\PPG_serial\\PPG_Serial-main"; // CSV 파일 경로와 이름 설정
-
-            using (StreamWriter writer = new StreamWriter(strDir))
-            {
-
-            }
-            */
-        /*
-        int StreamNumber = serialPort.BytesToRead;
-            string strDir = "C:\\Users\\Miran-Laptop\\PPG\\PPG_serial\\PPG_Serial-main"; // CSV 파일 경로와 이름 설정
-
-            if (serialPort.IsOpen)
-            {
-                /*
-                byte[] buffer = new byte[StreamNumber]; // 시리얼 포트에서 읽어온 데이터를 저장할 버퍼 생성
-                serialPort.Read(buffer, 0, StreamNumber); // 시리얼 포트에서 버퍼 크기만큼 데이터 읽기
-                */
-        /*
-                string Streamdata = serialPort1_DataReceived;
-                string csvLine = string.Format("{0}", textBox_ViewData);
-                /*
-                foreach (byte Streamdata in buffer)
-                {
-                    for (int i = 0; i < Ch_Num; i++)
-                    {
-                        string Streamdata = String.Format("{0}", (PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1];
-                    }
-                }
-                */
-//            }
-
-//        }
 
     }
 }
