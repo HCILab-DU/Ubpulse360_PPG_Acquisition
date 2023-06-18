@@ -34,7 +34,7 @@
             this.comboBox_Port = new System.Windows.Forms.ComboBox();
             this.button_Refresh = new System.Windows.Forms.Button();
             this.button_Disconnect = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.PPG_save_button = new System.Windows.Forms.Button();
             this.PPG_Raw_data_print = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -96,14 +96,15 @@
             this.button_Disconnect.UseVisualStyleBackColor = true;
             this.button_Disconnect.Click += new System.EventHandler(this.button_Disconnect_Click);
             // 
-            // button1
+            // PPG_save_button
             // 
-            this.button1.Location = new System.Drawing.Point(14, 369);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(134, 55);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "저장";
-            this.button1.UseVisualStyleBackColor = true;
+            this.PPG_save_button.Location = new System.Drawing.Point(14, 369);
+            this.PPG_save_button.Name = "PPG_save_button";
+            this.PPG_save_button.Size = new System.Drawing.Size(134, 55);
+            this.PPG_save_button.TabIndex = 6;
+            this.PPG_save_button.Text = "저장";
+            this.PPG_save_button.UseVisualStyleBackColor = true;
+            this.PPG_save_button.Click += new System.EventHandler(this.button1_Click);
             // 
             // PPG_Raw_data_print
             // 
@@ -121,7 +122,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(466, 445);
             this.Controls.Add(this.PPG_Raw_data_print);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.PPG_save_button);
             this.Controls.Add(this.button_Disconnect);
             this.Controls.Add(this.button_Refresh);
             this.Controls.Add(this.comboBox_Port);
@@ -143,7 +144,7 @@
         private System.Windows.Forms.ComboBox comboBox_Port;
         private System.Windows.Forms.Button button_Refresh;
         private System.Windows.Forms.Button button_Disconnect;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button PPG_save_button;
         private System.Windows.Forms.Button PPG_Raw_data_print;
     }
 }

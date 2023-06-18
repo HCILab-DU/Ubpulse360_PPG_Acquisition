@@ -1,11 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.IO.Ports;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
 {
     // 공개된 여러파일에 나눠 작성되는 'Form1' 클래스 정의
-    public partial class Form1 : Form 
+    public partial class Form1 : Form
     {
         // 정적으로 선언된 Serialport 변수에 SerialPort 겍체를 생성하여 할당
         static SerialPort serialPort = new SerialPort();
@@ -30,6 +32,7 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
         static int Ch_Num = 6;
         static int Sample_Num = 1;
         byte[] PacketStreamData = new byte[Ch_Num * 2 * Sample_Num];
+        String strDir = "C:\\Users\\Miran-Laptop\\Desktop\\asdf"; // CSV 파일 경로와 이름 설정
 
 
         int Parsing_LXSDFT2(byte data_crnt)
@@ -137,6 +140,15 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
             }
         }
 
+        private void SaveDataToCSV(string filePath, string[] data)
+        {
+            using (StreamWriter sw = new StreamWriter(filePath, true))
+            {
+                string csvLine = string.Join(",", data);
+                sw.WriteLine(csvLine);
+            }
+        }
+
         private void button_Connect_Click(object sender, EventArgs e)
         {
 
@@ -195,15 +207,70 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
             Ubpulse_PPG_chart showUbpulse_PPG_Chart = new Ubpulse_PPG_chart();
             showUbpulse_PPG_Chart.ShowDialog();
         }
-        /*
-       private void button1_Click(object sender, EventArgs e)
-       {
-           if ()
-           {
-               Sample_Num = 
-           }
 
-       }
-*/
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            if (serialPort.IsOpen)
+            {
+                int StreamNumber = 0;
+                byte[] buffer = new byte[StreamNumber];
+                serialPort.Read(buffer, 0, StreamNumber);
+                using (StreamWriter writer = new StreamWriter(strDir))
+
+                {
+                    foreach (byte receivedData in buffer)
+                    {
+                        if (Parsing_LXSDFT2(receivedData) == 1)
+                        {
+                            string line = string.Format("{0:D2}, {1}, ", PacketCount, ((PUD1 % 0x07) << 8) + PUD0);
+
+                            for (int i = 0; i < Ch_Num; i++)
+                            {
+                                line += string.Format("{0}, ", ((PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1]);
+                            }
+
+                            writer.WriteLine("{0}", line);
+                        }
+                    }
+                }
+            }
+        }
+        /*
+        {
+            /*
+            String strDir = "C:\\Users\\Miran-Laptop\\PPG\\PPG_serial\\PPG_Serial-main"; // CSV 파일 경로와 이름 설정
+
+            using (StreamWriter writer = new StreamWriter(strDir))
+            {
+
+            }
+            */
+        /*
+        int StreamNumber = serialPort.BytesToRead;
+            string strDir = "C:\\Users\\Miran-Laptop\\PPG\\PPG_serial\\PPG_Serial-main"; // CSV 파일 경로와 이름 설정
+
+            if (serialPort.IsOpen)
+            {
+                /*
+                byte[] buffer = new byte[StreamNumber]; // 시리얼 포트에서 읽어온 데이터를 저장할 버퍼 생성
+                serialPort.Read(buffer, 0, StreamNumber); // 시리얼 포트에서 버퍼 크기만큼 데이터 읽기
+                */
+        /*
+                string Streamdata = serialPort1_DataReceived;
+                string csvLine = string.Format("{0}", textBox_ViewData);
+                /*
+                foreach (byte Streamdata in buffer)
+                {
+                    for (int i = 0; i < Ch_Num; i++)
+                    {
+                        string Streamdata = String.Format("{0}", (PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1];
+                    }
+                }
+                */
+//            }
+
+//        }
+
     }
 }

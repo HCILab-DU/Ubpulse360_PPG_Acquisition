@@ -31,3 +31,4 @@ C:\Users\Miran-Laptop\PPG\PPG_serial\PPG_Serial-main\WindowsFormsApp1\WindowsFor
 C:\Users\Miran-Laptop\PPG\PPG_serial\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
 C:\Users\Miran-Laptop\PPG\PPG_serial\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
 C:\Users\Miran-Laptop\PPG\PPG_serial\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
+C:\Users\Miran-Laptop\PPG\PPG_serial\PPG_Serial-main\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Ubpulse_PPG_chart.resources
