@@ -36,6 +36,7 @@
             this.button_Disconnect = new System.Windows.Forms.Button();
             this.PPG_save_button = new System.Windows.Forms.Button();
             this.PPG_Raw_data_print = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_Connect
@@ -102,13 +103,13 @@
             this.PPG_save_button.Name = "PPG_save_button";
             this.PPG_save_button.Size = new System.Drawing.Size(134, 55);
             this.PPG_save_button.TabIndex = 6;
-            this.PPG_save_button.Text = "저장";
+            this.PPG_save_button.Text = "저장시작";
             this.PPG_save_button.UseVisualStyleBackColor = true;
             this.PPG_save_button.Click += new System.EventHandler(this.button1_Click);
             // 
             // PPG_Raw_data_print
             // 
-            this.PPG_Raw_data_print.Location = new System.Drawing.Point(154, 369);
+            this.PPG_Raw_data_print.Location = new System.Drawing.Point(319, 369);
             this.PPG_Raw_data_print.Name = "PPG_Raw_data_print";
             this.PPG_Raw_data_print.Size = new System.Drawing.Size(134, 55);
             this.PPG_Raw_data_print.TabIndex = 7;
@@ -116,11 +117,22 @@
             this.PPG_Raw_data_print.UseVisualStyleBackColor = true;
             this.PPG_Raw_data_print.Click += new System.EventHandler(this.PPG_Raw_data_print_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(172, 369);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(129, 55);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "저장종료";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(466, 445);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.PPG_Raw_data_print);
             this.Controls.Add(this.PPG_save_button);
             this.Controls.Add(this.button_Disconnect);
@@ -146,6 +158,7 @@
         private System.Windows.Forms.Button button_Disconnect;
         private System.Windows.Forms.Button PPG_save_button;
         private System.Windows.Forms.Button PPG_Raw_data_print;
+        private System.Windows.Forms.Button button1;
     }
 }
 

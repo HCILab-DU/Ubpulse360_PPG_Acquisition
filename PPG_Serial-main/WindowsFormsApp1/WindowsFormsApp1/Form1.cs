@@ -5,6 +5,7 @@ using System.IO.Ports;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Diagnostics;
+using System.Threading;
 
 
 namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
@@ -36,6 +37,70 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
         static int Sample_Num = 1;
         byte[] PacketStreamData = new byte[Ch_Num * 2 * Sample_Num];
 
+        public DateTime StartDate;
+        public DateTime EndDate;
+        public TimeSpan dateDiff;
+        public int flag = 1;
+        public int diffHours; 
+        public int diffMinutes;
+        public int diffSeconds;
+        public int diffMs;
+        public string diff_time;
+        public string output_data;
+        string csvFilePath = Path.Combine(Application.StartupPath, "ppg_data.csv");
+
+        //thread
+        private Thread btn_th;
+
+        private void save_data()
+        {
+            try
+            {
+                // CSV 파일을 생성하고 쓰기 위한 StreamWriter 객체 생성
+                using (StreamWriter writer = new StreamWriter(csvFilePath))
+                {
+                    writer.WriteLine("Time, Data");
+                    while (true)
+                    {
+                        if (flag==1)
+                        {
+                            StartDate = DateTime.Now;
+                            flag=0;
+                            Console.WriteLine("시작시간:" + StartDate.ToString("HH:mm:ss.fff"));
+                        }
+                        else
+                        {
+                            EndDate = DateTime.Now;
+                            TimeSpan dateDiff = EndDate-StartDate;
+
+                            diffHours = dateDiff.Hours;
+                            diffMinutes = dateDiff.Minutes;
+                            diffSeconds = dateDiff.Seconds;
+                            diffMs = dateDiff.Milliseconds;
+                        }
+
+                        diff_time = string.Format("{0}:{1}:{2}:{3}", diffHours, diffMinutes, diffSeconds, diffMs);
+
+                        Console.WriteLine("시간차: " + diff_time + ", Data:" + output_data);
+                        string line = string.Format("{0}, {1}", diff_time, output_data);
+                        writer.WriteLine(line);
+                        Thread.Sleep(10); //ms -> 10ms : 0.01s -> 변경하지 말 것. 
+                        //Sampling rate = 63Hz
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("저장 오류");
+            }
+         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("데이터 저장을 시작합니다.");
+            btn_th = new Thread(save_data);
+            btn_th.Start();
+        }
 
         int Parsing_LXSDFT2(byte data_crnt)
         {
@@ -112,6 +177,7 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
             {
                 // receivedNumber의 길이로 이루어진 바이트 배열인 buffer를 선언
                 byte[] buffer = new byte[receivedNumber];
+
                 // 시리얼 포트로 가져온 데이터를 버퍼라는 배이트배열의 시작점인 0부터 저장한다. receivedNumber라는 데이터로
                 serialPort.Read(buffer, 0, receivedNumber);
                 // 반복문, foreach 구문을 사용하여 buffer배열에 receivedData를 참조
@@ -127,12 +193,22 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
                                 ((PUD1 % 0x07) << 8) + PUD0)
                         );
                         // Ch_Num을 반복하며
+                        int i= 0;
+                        textBox_ViewData.AppendText(string.Format("{0} ", ((PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1]));
+                        output_data = string.Format("{0} ", ((PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1]);
+                        Console.WriteLine(output_data);
+                        /*
                         for (int i = 0; i < Ch_Num; i++)
                         {
                             // TextBox에 텍스트를 추가한다. 텍스트 형식은 {0}이며 ((PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1]))를 대입함
                             textBox_ViewData.AppendText(string.Format("{0} ", ((PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1]));
+                            
+                            output_data = string.Format("{0} ", ((PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1]);
+                            Console.WriteLine(output_data);
+
                         }
-                        textBox_ViewData.AppendText("\r\n");
+                        
+                        textBox_ViewData.AppendText("\r\n"); //개행
                         
                         /*if (PacketCount >= 31)
                         {
@@ -140,61 +216,6 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
                         }*/
                     }
                 }
-            }
-        }
-
-        private Stopwatch stopwatch = new Stopwatch();
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            if (serialPort.IsOpen)
-            {
-
-                MessageBox.Show("데이터 저장을 시작합니다.");
-                // CSV 파일 경로 및 파일 이름 설정
-                string csvFilePath = Path.Combine(Application.StartupPath, "data.csv");
-
-
-                try
-                {
-                    // CSV 파일을 생성하고 쓰기 위한 StreamWriter 객체 생성
-                    using (StreamWriter writer = new StreamWriter(csvFilePath))
-                    {
-                        int SerialData = serialPort.BytesToRead;
-
-                        writer.WriteLine("Time, Data");
-
-                        if (SerialData > 0)
-                        {
-                            stopwatch.Start();
-                            TimeSpan elapsed = stopwatch.Elapsed;
-                            string currentTime = elapsed.ToString("mm\\:ss\\.fff");
-                            byte[] buffer = new byte[SerialData];
-                            serialPort.Read(buffer, 0, SerialData);
-                            foreach (byte StreamSaveData in buffer)
-                            {
-                                if (Parsing_LXSDFT2(StreamSaveData) == 1)
-                                {
-                                    for (int i = 0; i <Ch_Num; i++)
-                                    {
-                                        int Streamdata = (((PacketStreamData[i * 2] & 0x0F) << 8) +PacketStreamData[i * 2 + 1]);
-                                        //string currentTime = elapsed.ToString("mm\\:ss\\.fff");
-                                        string line = string.Format("{0}, {1}", currentTime, Streamdata);
-                                        writer.WriteLine(line);
-                                    }
-
-                                }
-
-                            }
-
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("저장 오류");
-                }
-
             }
         }
 
@@ -243,7 +264,13 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
             if (serialPort.IsOpen)
             {
                 serialPort.Close();
+                btn_th.Abort();
+                // 예외처리 안해서 저장 버튼 안누르고 해제만 눌렀을 시, Error 발생 -> 무시하면 됨
             }
+           
+            Console.WriteLine("프로그램 종료");
+
+
         }
 
         private void textBox_ViewData_TextChanged(object sender, EventArgs e)
@@ -257,5 +284,9 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
             showUbpulse_PPG_Chart.ShowDialog();
         }
 
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
