@@ -197,6 +197,7 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
                         textBox_ViewData.AppendText(string.Format("{0} ", ((PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1]));
                         output_data = string.Format("{0} ", ((PacketStreamData[i * 2] & 0x0F) << 8) + PacketStreamData[i * 2 + 1]);
                         Console.WriteLine(output_data);
+                        textBox_ViewData.AppendText("\r\n"); //개행
                         /*
                         for (int i = 0; i < Ch_Num; i++)
                         {
@@ -208,7 +209,7 @@ namespace WindowsFormsApp1 // 네임스페이스 WindowsFormsAPP1로 정의
 
                         }
                         
-                        textBox_ViewData.AppendText("\r\n"); //개행
+
                         
                         /*if (PacketCount >= 31)
                         {
